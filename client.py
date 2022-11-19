@@ -18,6 +18,7 @@ def listen_for_messages_from_server(client):
         else:
             print("Message received from server is empty!")
 
+
 def send_message_to_server(client):
 
     while 1:

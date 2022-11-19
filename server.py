@@ -13,23 +13,26 @@ active_clients = [] # List of all connected users
 
 
 # Function to listen for upcoming messages from a client
-def listen_for_messages(client):
+def listen_for_messages(client,username):
 
-    pass
+    while 1:
+        message = client.recv(2048).decode('utf-8')
+        if message != '':
+            final_msg = username + '-' + message
+            send_messages_to_all(final_msg)
+        else:
+            print(f'The message sent from client {username} is empty')
 
 
-
-
+def send_messages_to_all(message):
+    for user in active_clients:
+        send_message_to_client(user[1],message)
+    
 # Function to send message to a single client
 def send_message_to_client(client, message):
 
     client.sendall(message.encode())
 
-"""def send_messages_to_all(message):
-    
-    for user in active_clients:
-
-        send_message_to_client(user[1], message)"""
 
 # Function to handle client
 def client_handler(client):
@@ -43,9 +46,11 @@ def client_handler(client):
         if username != '':
             print(f"{username} has joined server!")
             active_clients.append((username, client))
+            break
         else:
             print('Client username is empty!')    
-
+            break
+    Thread(target = listen_for_messages, args = (client, username, )).start()
 
 
 # Main function

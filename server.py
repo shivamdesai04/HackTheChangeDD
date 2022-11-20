@@ -43,6 +43,7 @@ def send_messages_to_all(message):
         try:
             send_message_to_client(user[1],message)
         except Exception as e:
+            
             print("[EXCPETION]",e)
 
 # Function to send message to a single client

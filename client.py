@@ -6,7 +6,7 @@ HOST = '127.0.0.1'
 # Use the IPv4 address of the device hosting the server
 # Findlay: 10.13.141.141
 PORT =  1234
-CHAR_LIMIT = 2048
+CHAR_LIMIT = 512
 
 def listen_for_messages_from_server(client):
     while True:

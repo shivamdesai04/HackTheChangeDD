@@ -26,7 +26,7 @@ def listen_for_messages_from_server(client):
             username = message.split('-')[0]
             translated_content = GoogleTranslator(source ='auto' ,target='fr').translate(message.split('-')[1])
 
-            print(f"[{username}] {translated_content}")
+            print(f"\n[{username}] {translated_content}\n")
         else:
             #print("Message received from server is empty!")
             sys.exit('You have left the chat...')

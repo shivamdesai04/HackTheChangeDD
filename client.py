@@ -2,11 +2,13 @@
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 
+
 HOST = '127.0.0.1' 
 # Use the IPv4 address of the device hosting the server
 # Findlay: 10.13.141.141
 PORT =  1234
 CHAR_LIMIT = 512
+
 
 def listen_for_messages_from_server(client):
     while True:
@@ -56,6 +58,8 @@ def main():
         print(f"Unable to connect to server {HOST} {PORT}")
 
     comunicate_to_server(client)
+
+    
 if __name__ == '__main__':
     main()
 

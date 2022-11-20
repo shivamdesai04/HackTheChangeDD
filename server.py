@@ -1,5 +1,4 @@
 
-
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 import threading
@@ -10,7 +9,6 @@ PORT =  1234
 CHAR_LIMIT = 512
 LISTENER_LIMIT = 10
 active_clients = [] # List of all connected users
-
 
 
 # Function to listen for upcoming messages from a client
@@ -31,6 +29,7 @@ def listen_for_messages(client,username):
 def send_messages_to_all(message):
     for user in active_clients:
         send_message_to_client(user[1],message)
+  
     
 # Function to send message to a single client
 def send_message_to_client(client, message):

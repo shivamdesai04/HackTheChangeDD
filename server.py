@@ -3,7 +3,7 @@
 import socket
 from threading import Thread
 import threading
-
+from deep_translator import GoogleTranslator
 
 HOST = '0.0.0.0'
 PORT =  5500
@@ -17,7 +17,7 @@ def listen_for_messages(client,username):
     while True:
         message = ''
         message = client.recv(CHAR_LIMIT).decode('utf-8')
-        if message == 'quit': 
+        if GoogleTranslator(source='auto',target='en').translate(message) == 'quit': 
             print(f"{username} has quit :(")
             active_clients.remove((username, client,))
             client.shutdown(socket.SHUT_RD)

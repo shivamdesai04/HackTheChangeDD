@@ -18,7 +18,7 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 
 def listen_for_messages_from_server(client):
-    while 1:
+    while True:
         message = client.recv(CHAR_LIMIT).decode('utf-8')
         if message != '':
             username = message.split('-')[0]

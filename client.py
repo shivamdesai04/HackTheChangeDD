@@ -7,7 +7,7 @@ HOST = '127.0.0.1'
 # Use the IPv4 address of the device hosting the server
 # Findlay: 10.13.141.141
 PORT =  5500
-CHAR_LIMIT = 512
+CHAR_LIMIT = 128
 
 
 def listen_for_messages_from_server(client):
@@ -20,6 +20,7 @@ def listen_for_messages_from_server(client):
             print(f"[{username}] {content}")
         else:
             print("Message received from server is empty!")
+            exit(0)
 
 
 def send_message_to_server(client):
@@ -39,10 +40,11 @@ def comunicate_to_server(client):
         if username == '':
             print("Username cannot be empty!")
     client.sendall(username.encode())
-    
-    Thread(target=listen_for_messages_from_server,args=(client, )).start()
-    
-    send_message_to_server(client)
+    try:
+        Thread(target=listen_for_messages_from_server,args=(client, )).start()
+        send_message_to_server(client)
+    except Exception as e:
+        print("[EXCPETION]",e)
 
 
 # Main function

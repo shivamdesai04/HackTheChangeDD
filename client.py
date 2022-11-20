@@ -26,7 +26,7 @@ def listen_for_messages_from_server(client):
         LanguageInfo = mycursor.fetchone()[0]
         if message != '':
             username = message.split('-')[0]
-            translated_content = GoogleTranslator(source ='auto' ,target='fr').translate(message.split('-')[1])
+            translated_content = GoogleTranslator(source ='auto' ,target=f'{LanguageInfo}').translate(message.split('-')[1])
 
             print(f"[{username}] {translated_content}")
         else:
@@ -52,7 +52,11 @@ def check_in_result(result, what, whatelse = ''):
     return False
 
 def collect_data(username):
-    language = input("what language do you speak?")
+    while True:
+        language = input("what language do you speak?")
+        if language in ['afrikaans', 'albanian', 'amharic', 'arabic', 'armenian', 'assamese', 'aymara', 'azerbaijani', 'bambara', 'basque', 'belarusian', 'bengali', 'bhojpuri', 'bosnian', 'bulgarian', 'catalan', 'cebuano', 'chichewa', 'chinese (simplified)', 'chinese (traditional)', 'corsican', 'croatian', 'czech', 'danish', 'dhivehi', 'dogri', 'dutch', 'english', 'esperanto', 'estonian', 'ewe', 'filipino', 'finnish', 'french', 'frisian', 'galician', 'georgian', 'german', 'greek', 'guarani', 'gujarati', 'haitian creole', 'hausa', 'hawaiian', 'hebrew', 'hindi', 'hmong', 'hungarian', 'icelandic', 'igbo', 'ilocano', 'indonesian', 'irish', 'italian', 'japanese', 'javanese', 'kannada', 'kazakh', 'khmer', 'kinyarwanda', 'konkani', 'korean', 'krio', 'kurdish (kurmanji)', 'kurdish (sorani)', 'kyrgyz', 'lao', 'latin', 'latvian', 'lingala', 'lithuanian', 'luganda', 'luxembourgish', 'macedonian', 'maithili', 'malagasy', 'malay', 'malayalam', 'maltese', 'maori', 'marathi', 'meiteilon (manipuri)', 'mizo', 'mongolian', 'myanmar', 'nepali', 'norwegian', 'odia (oriya)', 'oromo', 'pashto', 'persian', 'polish', 'portuguese', 'punjabi', 'quechua', 'romanian', 'russian', 'samoan', 'sanskrit', 'scots gaelic', 'sepedi', 'serbian', 'sesotho', 'shona', 'sindhi', 'sinhala', 'slovak', 'slovenian', 'somali', 'spanish', 'sundanese', 'swahili', 'swedish', 'tajik', 'tamil', 'tatar', 'telugu', 'thai', 'tigrinya', 'tsonga', 'turkish', 'turkmen', 'twi', 'ukrainian', 'urdu', 'uyghur', 'uzbek', 'vietnamese', 'welsh', 'xhosa', 'yiddish', 'yoruba', 'zulu']:
+            break
+        else:print('language not valid, please try again')
     display_name = input("name name do you want to be seen as?")
     mycursor.execute(f"INSERT INTO UNIQUE_USER_DATA VALUES('{username}','{language}','{display_name}')")
     mydb.commit()

@@ -2,9 +2,9 @@
 'use strict';
 
 // const fs = require('fs');
-define(['require', 'fs'], fs(require)); {
+define(function (require) {
     var fs = require('fs');
-};
+});
 
 
 function googleTranslateElementInit() {

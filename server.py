@@ -29,7 +29,6 @@ def listen_for_messages(client,username):
             print(f"{username} has quit :(")
             active_clients.remove((username, client,))
             client.shutdown(socket.SHUT_RD)
-            #client.close()
             break
         elif message != '':
             final_msg = username + '-' + message
@@ -43,7 +42,7 @@ def send_messages_to_all(message):
         try:
             send_message_to_client(user[1],message)
         except Exception as e:
-            print("[EXCPETION]",e)
+            exit('You have left the chat...')
 
 # Function to send message to a single client
 def send_message_to_client(client, message):
@@ -61,12 +60,14 @@ def client_handler(client):
             active_clients.append((username, client))
             break
         except Exception as e:
-            print("[EXCEPTION]",e)
+            #print("[EXCEPTION]",e)
+            exit('You have left the chat...')
             break
     try:
         Thread(target = listen_for_messages, args = (client, username, )).start()
     except Exception as e:
-        print("[EXCEPTION]",e)
+        exit('You have left the chat...')
+        #print("[EXCEPTION]",e)
 
 # Main function
 def main():

@@ -6,7 +6,7 @@ import threading
 
 
 HOST = '0.0.0.0'
-PORT =  5500
+PORT =  1234
 CHAR_LIMIT = 128
 LISTENER_LIMIT = 10
 active_clients = [] # List of all connected users
@@ -20,7 +20,7 @@ def listen_for_messages(client,username):
         if message == 'quit': 
             print(f"{username} has quit :(")
             active_clients.remove((username, client,))
-            client.shutdown(socket.SHUT_RDWR)
+            client.shutdown(socket.SHUT_RD)
             #client.close()
             break
         elif message != '':

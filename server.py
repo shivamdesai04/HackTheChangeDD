@@ -1,12 +1,13 @@
 
-from socket import AF_INET, socket, SOCK_STREAM
+
+import socket
 from threading import Thread
 import threading
 
 
 HOST = '0.0.0.0'
-PORT =  5500
-CHAR_LIMIT = 512
+PORT =  1234
+CHAR_LIMIT = 128
 LISTENER_LIMIT = 10
 active_clients = [] # List of all connected users
 
@@ -14,10 +15,13 @@ active_clients = [] # List of all connected users
 # Function to listen for upcoming messages from a client
 def listen_for_messages(client,username):
     while True:
+        message = ''
         message = client.recv(CHAR_LIMIT).decode('utf-8')
         if message == 'quit': 
+            print(f"{username} has quit :(")
             active_clients.remove((username, client,))
-            client.close()
+            client.shutdown(socket.SHUT_RD)
+            #client.close()
             break
         elif message != '':
             final_msg = username + '-' + message
@@ -28,7 +32,10 @@ def listen_for_messages(client,username):
 
 def send_messages_to_all(message):
     for user in active_clients:
-        send_message_to_client(user[1],message)
+        try:
+            send_message_to_client(user[1],message)
+        except Exception as e:
+            print("[EXCPETION]",e)
 
 
 # Function to send message to a single client
@@ -50,13 +57,15 @@ def wait_for_client(client):
         except Exception as e:
             print("[EXCEPTION]",e)
             break
-    Thread(target = listen_for_messages, args = (client, username, )).start()
-
+    try:
+        Thread(target = listen_for_messages, args = (client, username, )).start()
+    except Exception as e:
+        print("[EXCEPTION]",e)
 
 # Main function
 def main():
     # Creating the server socket class object
-    server = socket(AF_INET, SOCK_STREAM)
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     try:
         # Provide the server with an address in the form of 
@@ -69,7 +78,7 @@ def main():
     server.listen(LISTENER_LIMIT)
 
     while True:
-        client, address = server.accept()
+        (client, address) = server.accept()
         print(f"Successfully connected to client {address[0]} {address[1]}")
         
         Thread(target=wait_for_client,args=(client, )).start()

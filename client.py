@@ -22,6 +22,8 @@ mycursor = mydb.cursor()
 def listen_for_messages_from_server(client):
     while True:
         message = client.recv(CHAR_LIMIT).decode('utf-8')
+        mycursor.execute("SELECT Language FROM UNIQUE_USER_DATA")
+        LanguageInfo = mycursor.fetchone()[0]
         if message != '':
             username = message.split('-')[0]
             translated_content = GoogleTranslator(source ='auto' ,target='fr').translate(message.split('-')[1])

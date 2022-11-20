@@ -7,16 +7,15 @@ import threading
 
 HOST = '0.0.0.0'
 PORT =  1234
-CHAR_LIMIT = 2048
-LISTENER_LIMIT = 5
+CHAR_LIMIT = 512
+LISTENER_LIMIT = 10
 active_clients = [] # List of all connected users
 
 
 
 # Function to listen for upcoming messages from a client
 def listen_for_messages(client,username):
-
-    while 1:
+    while True:
         message = client.recv(CHAR_LIMIT).decode('utf-8')
         if message == 'quit':
             client.close()
@@ -40,20 +39,23 @@ def send_message_to_client(client, message):
 
 
 # Function to handle client
-def client_handler(client):
+def wait_for_client(client):
     
-    # Server will listen for client message that will
+    # Server will wait for client message that will
     # Contain the username
 
-    while 1:
-
-        username = client.recv(CHAR_LIMIT).decode('utf-8')
-        if username != '':
-            print(f"{username} has joined server!")
-            active_clients.append((username, client))
-            break
-        else:
-            print('Client username is empty!')    
+    while True:
+        try:
+            username = client.recv(CHAR_LIMIT).decode('utf-8')
+            if username != '':
+                print(f"{username} has joined server!")
+                active_clients.append((username, client))
+                break
+            else:
+                print('Client username is empty!')    
+                break
+        except Exception as e:
+            print("[EXCEPTION]",e)
             break
     Thread(target = listen_for_messages, args = (client, username, )).start()
 
@@ -74,11 +76,11 @@ def main():
 
     server.listen(LISTENER_LIMIT)
 
-    while 1:
+    while True:
         client, address = server.accept()
         print(f"Successfully connected to client {address[0]} {address[1]}")
 
-        Thread(target=client_handler,args=(client, )).start()
+        Thread(target=wait_for_client,args=(client, )).start()
 
         #send_message_to_client(client,"Hello!")
 # C:\Users\calga\OneDrive\Documents\GitHub\HackTheChangeDD

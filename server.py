@@ -29,8 +29,8 @@ def listen_for_messages(client,username):
 def send_messages_to_all(message):
     for user in active_clients:
         send_message_to_client(user[1],message)
-  
-    
+
+
 # Function to send message to a single client
 def send_message_to_client(client, message):
     client.sendall(message.encode())
@@ -74,9 +74,9 @@ def main():
     while True:
         client, address = server.accept()
         print(f"Successfully connected to client {address[0]} {address[1]}")
-
+        
         Thread(target=wait_for_client,args=(client, )).start()
-
+        
         #send_message_to_client(client,"Hello!")
     server.close()
 

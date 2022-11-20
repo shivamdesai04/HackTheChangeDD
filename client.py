@@ -33,15 +33,15 @@ def send_message_to_server(client):
 
 def comunicate_to_server(client):
 
-    username = ''#input("Enter username: ")
+    username = ''
     while username == '':
         username = input("Enter username: ")
         if username == '':
             print("Username cannot be empty!")
     client.sendall(username.encode())
-
+    
     Thread(target=listen_for_messages_from_server,args=(client, )).start()
-
+    
     send_message_to_server(client)
 
 
@@ -59,7 +59,7 @@ def main():
 
     comunicate_to_server(client)
 
-    
+
 if __name__ == '__main__':
     main()
 

@@ -6,7 +6,7 @@ import threading
 
 
 HOST = '0.0.0.0'
-PORT =  1234
+PORT =  5500
 CHAR_LIMIT = 128
 LISTENER_LIMIT = 10
 active_clients = [] # List of all connected users

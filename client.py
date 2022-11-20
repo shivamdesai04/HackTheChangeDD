@@ -1,12 +1,13 @@
 
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
+from deep_translator import GoogleTranslator
 import sys
 
 HOST = '127.0.0.1' 
 # Use the IPv4 address of the device hosting the server
 # Findlay: 10.13.141.141
-PORT =  1234
+PORT =  5500
 CHAR_LIMIT = 128
 
 

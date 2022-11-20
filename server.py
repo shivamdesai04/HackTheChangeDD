@@ -34,16 +34,13 @@ def send_messages_to_all(message):
     
 # Function to send message to a single client
 def send_message_to_client(client, message):
-
     client.sendall(message.encode())
 
 
 # Function to handle client
 def wait_for_client(client):
-    
     # Server will wait for client message that will
     # Contain the username
-
     while True:
         try:
             username = client.recv(CHAR_LIMIT).decode('utf-8')
@@ -63,7 +60,6 @@ def wait_for_client(client):
 # Main function
 def main():
     # Creating the server socket class object
-
     server = socket(AF_INET, SOCK_STREAM)
 
     try:
@@ -83,7 +79,6 @@ def main():
         Thread(target=wait_for_client,args=(client, )).start()
 
         #send_message_to_client(client,"Hello!")
-# C:\Users\calga\OneDrive\Documents\GitHub\HackTheChangeDD
     server.close()
 
 

@@ -1,16 +1,24 @@
 
-
 import socket
 from threading import Thread
 import threading
+import mysql.connector
 from deep_translator import GoogleTranslator
 
 HOST = '0.0.0.0'
 PORT =  5500
-CHAR_LIMIT = 128
+CHAR_LIMIT = 2048
 LISTENER_LIMIT = 10
+
 active_clients = [] # List of all connected users
 
+mydb = mysql.connector.connect(
+    host = '127.0.0.1',
+    user = 'root',
+    password = '27Eggs@home',
+    database = 'COMMUNIFY')
+
+mycursor = mydb.cursor()
 
 # Function to listen for upcoming messages from a client
 def listen_for_messages(client,username):
@@ -37,16 +45,14 @@ def send_messages_to_all(message):
         except Exception as e:
             print("[EXCPETION]",e)
 
-
 # Function to send message to a single client
 def send_message_to_client(client, message):
     client.sendall(message.encode())
 
-
 # Function to handle client
-def wait_for_client(client):
-    # Server will wait for client message that will
-    # Contain the username
+def client_handler(client):
+# Server will listen for client message that will
+# Contain the username
     while True:
         try:
             username = client.recv(CHAR_LIMIT).decode('utf-8')
@@ -64,12 +70,12 @@ def wait_for_client(client):
 
 # Main function
 def main():
-    # Creating the server socket class object
+# Creating the server socket class object
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
+    
     try:
-        # Provide the server with an address in the form of 
-        # host IP and port
+    # Provide the server with an address in the form of 
+    # host IP and port
         server.bind((HOST, PORT))
         print(f"Server is running on {HOST} {PORT}")
     except:
@@ -80,16 +86,14 @@ def main():
     while True:
         (client, address) = server.accept()
         print(f"Successfully connected to client {address[0]} {address[1]}")
-        
-        Thread(target=wait_for_client,args=(client, )).start()
-        
-        #send_message_to_client(client,"Hello!")
+
+        Thread(target=client_handler,args=(client, )).start()
+
     server.close()
 
 
 if __name__ == '__main__':
     main()
-
 
 
 

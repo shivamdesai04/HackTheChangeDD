@@ -1,14 +1,15 @@
 
-
-from socket import AF_INET, socket, SOCK_STREAM
+import socket
 from threading import Thread
 import threading
 import mysql.connector
+from deep_translator import GoogleTranslator
 
-HOST = '127.0.0.1'
-PORT =  1234
+HOST = '0.0.0.0'
+PORT =  5500
 CHAR_LIMIT = 2048
-LISTENER_LIMIT = 5
+LISTENER_LIMIT = 10
+
 active_clients = [] # List of all connected users
 
 mydb = mysql.connector.connect(
@@ -21,12 +22,14 @@ mycursor = mydb.cursor()
 
 # Function to listen for upcoming messages from a client
 def listen_for_messages(client,username):
-
-    while 1:
+    while True:
+        message = ''
         message = client.recv(CHAR_LIMIT).decode('utf-8')
-        if message == 'quit':
-            client.close()
-            active_clients.remove(username)
+        if GoogleTranslator(source='auto',target='en').translate(message) == 'quit': 
+            print(f"{username} has quit :(")
+            active_clients.remove((username, client,))
+            client.shutdown(socket.SHUT_RD)
+            #client.close()
             break
         elif message != '':
             final_msg = username + '-' + message
@@ -37,32 +40,42 @@ def listen_for_messages(client,username):
 
 def send_messages_to_all(message):
     for user in active_clients:
-        send_message_to_client(user[1],message)
-    
+        try:
+            send_message_to_client(user[1],message)
+        except Exception as e:
+            print("[EXCPETION]",e)
+
 # Function to send message to a single client
 def send_message_to_client(client, message):
-
     client.sendall(message.encode())
 
 # Function to handle client
 def client_handler(client):
-    
-    # Server will listen for client message that will
-    # Contain the username
-    username = client.recv(CHAR_LIMIT).decode('utf-8')
-    active_clients.append((username, client))
-    Thread(target = listen_for_messages, args = (client, username, )).start()
-
+# Server will listen for client message that will
+# Contain the username
+    while True:
+        try:
+            username = client.recv(CHAR_LIMIT).decode('utf-8')
+            
+            print(f"{username} has joined server!")
+            active_clients.append((username, client))
+            break
+        except Exception as e:
+            print("[EXCEPTION]",e)
+            break
+    try:
+        Thread(target = listen_for_messages, args = (client, username, )).start()
+    except Exception as e:
+        print("[EXCEPTION]",e)
 
 # Main function
 def main():
-    # Creating the server socket class object
-
-    server = socket(AF_INET, SOCK_STREAM)
-
+# Creating the server socket class object
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
     try:
-        # Provide the server with an address in the form of 
-        # host IP and port
+    # Provide the server with an address in the form of 
+    # host IP and port
         server.bind((HOST, PORT))
         print(f"Server is running on {HOST} {PORT}")
     except:
@@ -70,14 +83,12 @@ def main():
 
     server.listen(LISTENER_LIMIT)
 
-    while 1:
-        client, address = server.accept()
+    while True:
+        (client, address) = server.accept()
         print(f"Successfully connected to client {address[0]} {address[1]}")
 
         Thread(target=client_handler,args=(client, )).start()
 
-        #send_message_to_client(client,"Hello!")
-# C:\Users\calga\OneDrive\Documents\GitHub\HackTheChangeDD
     server.close()
 
 

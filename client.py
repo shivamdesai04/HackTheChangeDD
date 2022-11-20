@@ -6,10 +6,11 @@ HOST = '127.0.0.1'
 # Use the IPv4 address of the device hosting the server
 # Findlay: 10.13.141.141
 PORT =  1234
+CHAR_LIMIT = 2048
 
 def listen_for_messages_from_server(client):
     while 1:
-        message = client.recv(2048).decode('utf-8')
+        message = client.recv(CHAR_LIMIT).decode('utf-8')
         if message != '':
             username = message.split('-')[0]
             content = message.split('-')[1]
@@ -26,24 +27,20 @@ def send_message_to_server(client):
         if message != '':
             client.sendall(message.encode())
         else:
-            print('Empty message!')
-            exit(0)    
+            print('Empty message!')    
 
 
 
 
 def comunicate_to_server(client):
 
-    username = input("Enter username: ")
-    '''while username == '':
-        username = input("Enter username")
+    username = ''#input("Enter username: ")
+    while username == '':
+        username = input("Enter username: ")
         if username == '':
-            print("Username cannot be empty!")'''
-    if username != '':
-        client.sendall(username.encode())
-    else: 
-        print("Username cannot be empty!")
-        exit(0)
+            print("Username cannot be empty!")
+    client.sendall(username.encode())
+
     Thread(target=listen_for_messages_from_server,args=(client, )).start()
 
     send_message_to_server(client)

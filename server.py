@@ -7,6 +7,7 @@ import threading
 
 HOST = '0.0.0.0'
 PORT =  1234
+CHAR_LIMIT = 2048
 LISTENER_LIMIT = 5
 active_clients = [] # List of all connected users
 
@@ -16,8 +17,12 @@ active_clients = [] # List of all connected users
 def listen_for_messages(client,username):
 
     while 1:
-        message = client.recv(2048).decode('utf-8')
-        if message != '':
+        message = client.recv(CHAR_LIMIT).decode('utf-8')
+        if message == 'quit':
+            client.close()
+            active_clients.remove(username)
+            break
+        elif message != '':
             final_msg = username + '-' + message
             send_messages_to_all(final_msg)
         else:
@@ -42,7 +47,7 @@ def client_handler(client):
 
     while 1:
 
-        username = client.recv(2048).decode('utf-8')
+        username = client.recv(CHAR_LIMIT).decode('utf-8')
         if username != '':
             print(f"{username} has joined server!")
             active_clients.append((username, client))
@@ -77,6 +82,7 @@ def main():
 
         #send_message_to_client(client,"Hello!")
 # C:\Users\calga\OneDrive\Documents\GitHub\HackTheChangeDD
+    server.close()
 
 
 if __name__ == '__main__':

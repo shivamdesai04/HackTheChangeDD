@@ -6,7 +6,7 @@ from threading import Thread
 HOST = '127.0.0.1' 
 # Use the IPv4 address of the device hosting the server
 # Findlay: 10.13.141.141
-PORT =  1234
+PORT =  5500
 CHAR_LIMIT = 512
 
 
@@ -58,6 +58,7 @@ def main():
         print(f"Unable to connect to server {HOST} {PORT}")
 
     comunicate_to_server(client)
+    return 0
 
 
 if __name__ == '__main__':

@@ -5,7 +5,7 @@ import threading
 
 
 HOST = '0.0.0.0'
-PORT =  1234
+PORT =  5500
 CHAR_LIMIT = 512
 LISTENER_LIMIT = 10
 active_clients = [] # List of all connected users
@@ -15,9 +15,9 @@ active_clients = [] # List of all connected users
 def listen_for_messages(client,username):
     while True:
         message = client.recv(CHAR_LIMIT).decode('utf-8')
-        if message == 'quit':
+        if message == 'quit': 
+            active_clients.remove((username, client,))
             client.close()
-            active_clients.remove(username)
             break
         elif message != '':
             final_msg = username + '-' + message
@@ -43,13 +43,10 @@ def wait_for_client(client):
     while True:
         try:
             username = client.recv(CHAR_LIMIT).decode('utf-8')
-            if username != '':
-                print(f"{username} has joined server!")
-                active_clients.append((username, client))
-                break
-            else:
-                print('Client username is empty!')    
-                break
+            
+            print(f"{username} has joined server!")
+            active_clients.append((username, client))
+            break
         except Exception as e:
             print("[EXCEPTION]",e)
             break

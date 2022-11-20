@@ -1,0 +1,115 @@
+:root{
+    --length:1268.8px;
+    --height:691px;
+
+}
+body {
+    margin: 0px;
+    background-color: rgb(210, 255, 241);
+
+    }
+
+/* Add a black background color to the top navigation */
+.topnav {
+    background-color: #228D6D;
+    overflow: hidden;
+    height:100px;
+    position: sticky;
+
+    }
+  
+.topnav #logo {
+    height:100px;
+    margin-left: 150px;
+}
+.topnav #google_translate_element {
+    height:100px;
+    margin-right: 150px;
+}
+
+.signup{
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 40px 72px;
+gap: 32px;
+}
+.login_forum{
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 0px;
+gap: 12px;
+
+width: 471px;
+height: 266px;
+
+position: absolute;
+width: 300px;
+height: 500px;
+border: 5px solid #228D6D;
+border-radius: 50px;
+left: 476px;
+margin-top: 50px;
+margin-bottom: 75px;
+}
+
+h2 {
+    position: absolute;
+width: 787px;
+height: 242px;
+left: calc(50% - 787px/2 - 21.5px);
+top: 150px;
+
+font-family: 'Outfit';
+font-style: normal;
+font-weight: 700;
+font-size: 96px;
+line-height: 121px;
+display: flex;
+align-items: center;
+text-align: center;
+text-transform: capitalize;
+
+color: #479F85;
+}
+
+.font-list {
+position: absolute;
+width: 787px;
+height: 104px;
+left: 360px;
+top: 450px;
+
+background: rgba(34, 141, 116, 0.18);
+opacity: 0.2;
+border: 5px solid #228D6D;
+border-radius: 30px;
+}
+
+.langsign {
+    position: absolute;
+left: 80.62%;
+right: 12.15%;
+top: 62.83%;
+bottom: 28.44%;
+
+}
+
+/* .top_svg{
+    width: 90%;
+    margin-top: 50px;
+    justify-content: space-between;
+}
+.bot_svg{
+
+    margin-bottom: 50px;
+    width: 90%;
+    justify-content: space-between;
+} */
+
+.bg-select {
+    background-color: #228D6D !important;
+}
+

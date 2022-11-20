@@ -31,7 +31,7 @@ def listen_for_messages_from_server(client):
 
 def send_message_to_server(client):
 
-    while 1:
+    while True:
         message = input("Message: ")
         if message != '':
             client.sendall(message.encode())
@@ -53,7 +53,7 @@ def collect_data(username):
     mydb.commit()
 
 def comunicate_to_server(client):
-    while 1:
+    while True:
         sign_in = input('type 1 to sign in or 0 to log in: ') #given by a sign in button from front end
         username = input("Enter username: ")
         password = input("Enter password: ")

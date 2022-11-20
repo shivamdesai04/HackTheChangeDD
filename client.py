@@ -13,8 +13,8 @@ CHAR_LIMIT = 2048
 
 mydb = mysql.connector.connect(
     host = '127.0.0.1',
-    user = 'root',
-    password = '27Eggs@home',
+    user = 'Findlay',
+    password = 'helloworld',
     database = 'COMMUNIFY')
 
 mycursor = mydb.cursor()
@@ -24,7 +24,7 @@ def listen_for_messages_from_server(client):
         message = client.recv(CHAR_LIMIT).decode('utf-8')
         if message != '':
             username = message.split('-')[0]
-            translated_content = GoogleTranslator(source ='auto' ,target='fr').translate(message.split('-')[1])
+            translated_content = GoogleTranslator(source ='auto' ,target='en').translate(message.split('-')[1])
 
             print(f"[{username}] {translated_content}")
         else:

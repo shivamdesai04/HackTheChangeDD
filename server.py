@@ -14,8 +14,8 @@ active_clients = [] # List of all connected users
 
 mydb = mysql.connector.connect(
     host = '127.0.0.1',
-    user = 'root',
-    password = '27Eggs@home',
+    user = 'Findlay',
+    password = 'helloworld',
     database = 'COMMUNIFY')
 
 mycursor = mydb.cursor()

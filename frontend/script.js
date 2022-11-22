@@ -1,11 +1,8 @@
 
-'use strict';
+// 'use strict';
 
-// const fs = require('fs');
-define(['require', 'fs'], fs(require)); {
-    var fs = require('fs');
-};
 
+console.log('Hello');
 
 function googleTranslateElementInit() {
     new google.translate.TranslateElement({pageLanguage: 'sp'}, 'google_translate_element');
@@ -18,21 +15,26 @@ function getOption() {
     document.querySelector('.output').textContent = output;
 }
 
-console.log('Hello');
 
-const customer = {
-    name: "Newbie Co.",
-    order_count: 0,
-    address: "Po Box City",
-};
 
-let  jsonString = JSON.stringify(customer);
-fs.writeFile('./newCustomer.json', jsonString, (err) => {
-    if (err) throw err;
+// const fs = require('fs');
+// define(['require', 'fs'], fs(require)); {
+//     var fs = require('fs');
+// };
 
-    console.log('Successfully wrote file');
+// const customer = {
+//     name: "Newbie Co.",
+//     order_count: 0,
+//     address: "Po Box City",
+// };
+
+// let  jsonString = JSON.stringify(customer);
+// fs.writeFile('./newCustomer.json', jsonString, (err) => {
+//     if (err) throw err;
+
+//     console.log('Successfully wrote file');
     
-});
+// });
 
 
 
